@@ -9,10 +9,10 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 What you will need:
--Latest version of [Python 3](https://www.python.org/downloads/)
--[Python Imaging Library](http://www.pythonware.com/products/pil/)
--[Numpy and Scipy](https://www.scipy.org/scipylib/download.html)
--[Matplotlib](https://matplotlib.org/users/installing.html)
+* Latest version of [Python 3](https://www.python.org/downloads/)
+* [Python Imaging Library](http://www.pythonware.com/products/pil/)
+* [Numpy and Scipy](https://www.scipy.org/scipylib/download.html)
+* [Matplotlib](https://matplotlib.org/users/installing.html)
 
 ### Installing
 
