@@ -35,39 +35,39 @@ Start by cloning or downloading project onto system
 The latest version of Mac OS X, High Sierram cones with Python 2.7 out of the box. In order to install Python 3, follow these steps
 * Download [XCode](https://developer.apple.com/xcode/) from Apple
 * Install the Homebrew package manager by opening the Terminal and running the following command
-'''
+```
 $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-'''
+```
 * Insert Homebrew directory at the top of your PATH environment variable by adding the following line at the bottom of your ~/.profile file
-'''
+```
 $ export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-'''
+```
 * Install Python 3
-'''
+```
 $ brew install python3
-'''
+```
 * Run the following commands to get all the necessary packages
-'''
+```
 $ easy_install pip
-'''
+```
 * Numpy
-'''
+```
 $ pip install numpy
-'''
+```
 Scipy
-'''
+```
 $ brew install gfortran
 $ pip install scipy
-'''
+```
 * Matplotlib
-'''
+```
 $ brew install pkg-config
 $ pip install matplotlib
-'''
+```
 * PIL
-'''
+```
 $ pip install Pillow
-'''
+```
 
 ##### Linux
 
@@ -75,20 +75,21 @@ Most Linux distributions already have Python 3 installed
 
 Run the following commands to install the necessary packages
 * Numpy
+```
 $ sudo apt-get install python-numpy
-'''
+```
 * Scipy
-'''
+```
 $ sudo apt-get install python-scipy
-'''
+```
 * PIL
-'''
+```
 sudo apt-get install python-pillow
-'''
+```
 * Matplotlib
-'''
+```
 $ sudo apt-get install python-matplotlib
-'''
+```
 
 ## Deployment
 
@@ -100,13 +101,13 @@ Follow these steps to run the full program
 ### Mac OSX and Linux
 * Open the terminal
 * Navigate to the project directory
-'''
+```
 $ cd "_Enter project path here_"
-'''
+```
 * Run the project
-'''
+```
 $ python3 GUI_setup.py
-'''
+```
 
 ## Built With
 
