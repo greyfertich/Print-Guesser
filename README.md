@@ -1,4 +1,4 @@
-# Project Title
+# Print-Guesser
 
 Print-Guesser is a machine learning program that can predict user-drawn, uppercase letters. Using a feedforward neural network, this program learns from around 3000 training examples and can correctly read letters around 85-90% of the time.
 
@@ -7,12 +7,6 @@ Print-Guesser is a machine learning program that can predict user-drawn, upperca
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
 
 What you will need:
 -Latest version of [Python 3](https://www.python.org/downloads/)
