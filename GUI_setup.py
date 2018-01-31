@@ -38,8 +38,8 @@ title = Label(frame, text='Print Guesser', font=("Times", 64), fg='green', bg='#
 question = Button(frame, text='Train', font=("Times", 16), highlightthickness=0, fg='green', bg='#394549', bd=0, activeforeground='#394549', activebackground='#2A353B', command=insertSlider)
 direction = Label(frame, text='Select the number of epochs', font=('Times', 14), bg='#2A353B', bd=0, fg='dark gray')
 lab = Label(frame, text="Press Enter To Make Selection", font=('Times', 14), bg='#2A353B', bd=0, fg='dark gray')
-slide = Scale(frame, orient=HORIZONTAL, font=("Times", 12), from_=1, to=10, fg='green', bd=0, bg='#2A353B', activebackground='#252F33', troughcolor='#394549', length=400, highlightthickness=0)
-slide.set(1) #Sets initial slider value
+slide = Scale(frame, orient=HORIZONTAL, font=("Times", 12), from_=1, to=50, fg='green', bd=0, bg='#2A353B', activebackground='#252F33', troughcolor='#394549', length=400, highlightthickness=0)
+slide.set(26) #Sets initial slider value
 frame.pack()
 root.configure(background="#2A353B")
 root.title("Print Guesser")
