@@ -20,7 +20,7 @@ class Paint:
         self.pred_text.set("Prediction")
         self.draw_count = 0
         self.width = 500
-        self.height = 500
+        self.height = 360
         self.max_height = 0
         self.min_height = self.height
         self.max_width = 0
@@ -35,7 +35,11 @@ class Paint:
         self.neural_image = Image.new("RGBA", (self.neural_width, self.neural_height), (255,255,255)) #Image of neural net
         self.neural_image_draw = ImageDraw.Draw(self.neural_image)
         self.draw_color = '#00ff00'
+        self.title = Label(master, text='Query Neural Net', bg='#2A353B', font=('Times', 64), fg='green')
+        self.title.pack()
         self.newFrame = Frame(master, bg='#2A353B')
+        self.directions = Label(self.newFrame, bg='#2A353B', fg='gray', font=('Times', 16), text='Draw a letter in the field below\nPress enter when finished')
+        self.directions.pack(side=TOP)
         self.draw = Canvas(self.newFrame, bg='#2A353B', width=self.width, height=self.height, bd=0, highlightthickness=0) #Creates canvas for drawing
         self.draw.bind('<Button-1>', self.getCoordinates) #Left-click starts line
         self.draw.bind('<B1-Motion>', self.draw_lines) #Motion continues line
@@ -46,7 +50,7 @@ class Paint:
         self.text_color = '#%02x%02x%02x' % (255-green, green, 0)
         self.prediction = Label(self.newFrame, font=("Times", 64), textvariable=self.pred_text, fg='#00ff00', bg='#2A353B', bd=0)
         self.prediction.pack(side=BOTTOM)
-        img = PhotoImage(file='neural_image.gif')
+        img = PhotoImage(file='neural_image_start.gif')
         self.net_visual = Label(master, image=img, bg='#2A353B', bd=0)
         self.net_visual.image = img
         self.net_visual.pack(side=RIGHT)
@@ -116,7 +120,7 @@ class Paint:
             self.max_height = self.avg_h + self.avg
 
         self.saved_image3 = self.saved_image.crop((self.min_width, self.min_height, self.max_width, self.max_height))
-        self.saved_image2 = self.saved_image3.resize((self.crop_size,self.crop_size))
+        self.saved_image2 = self.saved_image3.resize((self.crop_size,self.crop_size), Image.ANTIALIAS)
         self.saved_image3.save("test_drawing3.png")
         self.saved_image2.save("test_drawing.png")
         self.saved_image.save("test_drawing2.png")
@@ -143,42 +147,11 @@ class Paint:
         green = int(final[np.argmax(final)] * 255)
         self.text_color = '#%02x%02x%02x' % (255-green, green, 0)
         self.prediction.configure(fg=self.text_color)
-        weights_ih = self.net.wih.T.tolist() #Gets list of final neural net input-hidden weight values
-        count = 0
-        for weight in range(len(weights_ih)): #Multiplies each input value by each neural net input-hidden weight
-            for value in range(len(weights_ih[weight])):
-                weights_ih[weight][value] *= new_input[weight]
+        self.title.configure(fg=self.text_color)
 
         self.inodes_display = int(self.inodes ** 0.5)
         self.hnodes_display = int(self.hnodes ** 0.5)
         self.onodes_display = self.onodes
-
-        count = 0
-        count2 = 0
-        highest_ih = 0
-        lowest_ih = 0
-        new_weights_ih = [[0 for x in range(self.hnodes)] for y in range(self.inodes_display)] #Condenses neural net for display
-        for weight in weights_ih:
-            for value in weight:
-                new_weights_ih[count//self.inodes_display][count2] += value
-                if new_weights_ih[count//self.inodes_display][count2] > highest_ih: highest_ih = new_weights_ih[count//self.inodes_display][count2]
-                if new_weights_ih[count//self.inodes_display][count2] < lowest_ih:  lowest_ih  = new_weights_ih[count//self.inodes_display][count2]
-                count2 +=1
-            count += 1
-            count2 = 0
-        count = 0
-        highest_ho = 0
-        lowest_ho = 0
-        weights_ho = self.net.who.T.tolist() #Gets list of final neural net hidden-final weight values
-        new_weights_ho = [[0 for x in range(self.onodes)] for y in range(self.hnodes_display)] #Condenses neural net for display
-        for weight in weights_ho:
-            for value in weight:
-                new_weights_ho[count//self.hnodes_display][count2] += value
-                if new_weights_ho[count//self.hnodes_display][count2] > highest_ho: highest_ho = new_weights_ho[count//self.hnodes_display][count2]
-                if new_weights_ho[count//self.hnodes_display][count2] < lowest_ho: lowest_ho = new_weights_ho[count//self.hnodes_display][count2]
-                count2 +=1
-            count += 1
-            count2 = 0
 
         input_separation  = round((self.neural_height / (self.inodes_display + 1.0)), 2)
         hidden_separation = self.neural_height / (self.hnodes_display + 1.0)
@@ -192,7 +165,7 @@ class Paint:
             for counter2 in range(self.hnodes_display):
                 num = numpy.random.randint(10)
                 num2 = numpy.random.randint(100) + 155
-                color = '#%02x%02x%02x' % (0, num2, 0)
+                color = self.text_color
                 r_color = '#%02x%02x%02x' % (num2, 0, 0)
                 if num > 7: self.neural_image_draw.line((25,input_separation + (counter*input_separation),125,hidden_separation + (counter2*hidden_separation)),fill=color)
                 if num < 2: self.neural_image_draw.line((25,input_separation + (counter*input_separation),125,hidden_separation + (counter2*hidden_separation)),fill=r_color)
@@ -200,16 +173,15 @@ class Paint:
             for counter2 in range(self.onodes_display):
                 num = numpy.random.randint(5)
                 num2 = numpy.random.randint(100) + 155
-                color = '#%02x%02x%02x' % (0, num2, 0)
+                color = self.text_color
                 if num == 1:
                     num3 = numpy.random.randint(200)
                     color2 = '#%02x%02x%02x' % (num3, 0, 0)
                     self.neural_image_draw.line((125,hidden_separation + (counter*hidden_separation),225,output_separation + (counter2*output_separation)),fill=color2)
                 if counter2 == np.argmax(final):
                     self.neural_image_draw.line((125,hidden_separation + (counter*hidden_separation),225,output_separation + (counter2*output_separation)),fill=color)
-        for counter in range(self.inodes_display):
-            self.neural_image_draw.ellipse((25 - inode_size,(input_separation - inode_size) + (counter*input_separation),25 + inode_size,(input_separation + inode_size) + (counter*input_separation)),fill="black")
 
+        for counter in range(self.inodes_display): self.neural_image_draw.ellipse((25 - inode_size,(input_separation - inode_size) + (counter*input_separation),25 + inode_size,(input_separation + inode_size) + (counter*input_separation)),fill="black")
         for counter in range(self.hnodes_display): self.neural_image_draw.ellipse((125 - inode_size,(hidden_separation - inode_size) + (counter*hidden_separation),125 + inode_size,(hidden_separation + inode_size) + (counter*hidden_separation)),fill="black")
         for counter in range(self.onodes_display): self.neural_image_draw.ellipse((225 - inode_size,(output_separation - inode_size) + (counter*output_separation),225 + inode_size,(output_separation + inode_size) + (counter*output_separation)),fill="black")
 
